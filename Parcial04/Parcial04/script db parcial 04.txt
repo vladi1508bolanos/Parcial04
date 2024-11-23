@@ -1,0 +1,77 @@
+script db parcial 04
+
+CREATE DATABASE LibraryDB;
+
+USE LibraryDB;
+
+-- Tabla author
+CREATE TABLE author (
+    ID_AUTHOR BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    FULL_NAME VARCHAR(255) NOT NULL,
+    DATE_OF_BIRTH DATE,
+    DATE_OF_DEATH DATE
+);
+
+-- Tabla genre
+CREATE TABLE genre (
+    ID_GENRE BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(255) NOT NULL
+);
+
+-- Tabla book
+CREATE TABLE book (
+    ID_BOOK BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    TITLE VARCHAR(255) NOT NULL,
+    DESCRIPTION VARCHAR(255),
+    YEAR_PUBLICATION YEAR(4),
+    ID_AUTHOR BIGINT(20),
+    ID_GENRE BIGINT(20),
+    FOREIGN KEY (ID_AUTHOR) REFERENCES author(ID_AUTHOR),
+    FOREIGN KEY (ID_GENRE) REFERENCES genre(ID_GENRE)
+);
+
+-- Tabla stock
+CREATE TABLE stock (
+    ID_STOCK BIGINT(20) AUTO_INCREMENT PRIMARY KEY,
+    ID_BOOK BIGINT(20),
+    TOTAL_STOCK INT(11),
+    NOTES VARCHAR(255),
+    LAST_INVENTORY DATE,
+    FOREIGN KEY (ID_BOOK) REFERENCES book(ID_BOOK)
+);
+
+-- Insertar registros en la tabla author
+INSERT INTO author (FULL_NAME, DATE_OF_BIRTH, DATE_OF_DEATH) VALUES
+('George Orwell', '1903-06-25', '1950-01-21'),
+('J.K. Rowling', '1965-07-31', NULL),
+('Jane Austen', '1775-12-16', '1817-07-18'),
+('Mark Twain', '1835-11-30', '1910-04-21'),
+('F. Scott Fitzgerald', '1896-09-24', '1940-12-21');
+
+-- Insertar registros en la tabla genre
+INSERT INTO genre (NAME) VALUES
+('Dystopian'),
+('Fantasy'),
+('Romance'),
+('Adventure'),
+('Classics');
+
+-- Insertar registros en la tabla book
+INSERT INTO book (TITLE, DESCRIPTION, YEAR_PUBLICATION, ID_AUTHOR, ID_GENRE) VALUES
+('1984', 'A dystopian novel about a totalitarian regime.', 1949, 1, 1),
+('Harry Potter and the Philosopher\'s Stone', 'A young wizard discovers his magical heritage.', 1997, 2, 2),
+('Pride and Prejudice', 'A romantic novel that critiques society in the 19th century.', 2000, 3, 3),  -- Año ajustado a 2000
+('The Adventures of Tom Sawyer', 'The adventures of a young boy growing up along the Mississippi River.', 2005, 4, 4),  -- Año ajustado a 2005
+('The Great Gatsby', 'A novel about the American Dream and the Jazz Age.', 1925, 5, 5);
+
+-- Insertar registros en la tabla stock
+INSERT INTO stock (ID_BOOK, TOTAL_STOCK, NOTES, LAST_INVENTORY) VALUES
+(1, 30, 'Stock updated recently', '2024-11-20'),
+(2, 50, 'High demand', '2024-11-15'),
+(3, 15, 'Classic title', '2024-11-10'),
+(4, 25, 'Popular among young readers', '2024-11-18'),
+(5, 40, 'Regular stock level', '2024-11-12');
+
+SELECT * FROM book;
+si llega a haber fallos en el inser de stock solo es de ver que id de libros están creados, y modificar el id_book de cada fila del insert de stock 
+
